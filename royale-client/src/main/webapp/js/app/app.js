@@ -14,7 +14,8 @@ function App() {
     'hideNames': Cookies.get("text") === '1',
     'hideTimer': Cookies.get("timer") === '1',
     'disableBg': Cookies.get("background") === '1',
-    'language': Cookies.get("lang") || "en"
+    'language': Cookies.get("lang") || "en",
+    'chatHidden': Cookies.get("hideChat") === '1'
   }
 
   this.lang = this.settings.language;   // Localization

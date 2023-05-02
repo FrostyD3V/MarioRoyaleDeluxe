@@ -215,7 +215,24 @@ Game.prototype.load = function(data) {
     app.menu.main.menuMusic.pause();
   }
 
-  document.getElementById("gameChat").style.display = "";
+  app.settings.chatHidden ? document.getElementById("hiddenChat").style.display = "" : document.getElementById("gameChat").style.display = "";
+
+  let chat = document.getElementById("gameChat");
+  let hidechat = document.getElementById("hiddenChat");
+
+  document.getElementById("chat-hide").onclick = () => {
+    chat.style.display = "none";
+    hidechat.style.display = "";
+    app.settings.chatHidden = true;
+    Cookies.set("hideChat", "1", { "expires": 30 });
+  };
+
+  hidechat.onclick = () => {
+    hidechat.style.display = "none";
+    chat.style.display = "";
+    app.settings.chatHidden = false;
+    Cookies.set("hideChat", "0", { "expires": 30 });
+  };
 
   var input = document.getElementById("chat-input");
   input.onkeyup = (evt) => this.handleKeyPress(evt);
