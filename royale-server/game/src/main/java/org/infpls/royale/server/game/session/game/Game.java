@@ -116,13 +116,13 @@ public class Game extends SessionState {
     if(session.getAccount() != null) {
       if(!session.isDev()) { return; }
 
-      p.name = p.name.toUpperCase();
+      String name = p.name.toUpperCase();
 
       Controller controller = lobby.getController(p.pid);
       if(controller.session.getAccount() != null) {
-        controller.session.getAccount().updateName(p.name);
+        controller.session.getAccount().updateName(name);
       }
-      controller.session.name = p.name;
+      controller.session.name = name;
 
       lobby.game.regenList();
     }
