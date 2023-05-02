@@ -258,7 +258,7 @@ public abstract class GameLobby {
   /* Chat */
   public void sendMessage(RoyaleSession session, String data) throws IOException {
     if(session.muted) {
-      sendPacket(new PacketGGM("[AUTOMOD]", "You are muted and can no longer speak in this lobby.", "orange", "red"));
+      sendPacket(new PacketGGM("[AUTOMOD]", "You are muted and can no longer speak in this lobby.", "orange", "red"), session);
       return;
     }
     sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isAdmin() ? "purple" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
@@ -295,7 +295,7 @@ public abstract class GameLobby {
                 sendPacket(new PacketGGM("[MOD TOOL]", "Successfully muted " + username, "orange", "green"));
                 break;
               } else {
-                sendPacket(new PacketGGM("[MOD TOOL]", "You cannot mute this player.", "orange", "red"));
+                sendPacket(new PacketGGM("[MOD TOOL]", "You cannot mute this player.", "orange", "red"), session);
                 break;
               }
             }
