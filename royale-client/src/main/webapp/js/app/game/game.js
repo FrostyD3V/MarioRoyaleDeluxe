@@ -224,7 +224,7 @@ Game.prototype.load = function(data) {
     input.value = "Register to chat";
     input.style.color = "#FFFFFFAA";
   } else {
-    input.enabled = true;
+    input.disabled = false;
     input.value = "";
     input.style.color = "#FFF";
   }

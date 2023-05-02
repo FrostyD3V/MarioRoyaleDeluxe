@@ -340,7 +340,8 @@ private static final byte[] VALID_SPRITES = new byte[] {
       "PYRIEL",
       "FUNGICAPTAIN3",
       "SYEMBOL",
-      "SIR SINS"
+      "SIR SINS",
+      "DAORANGEBOI"
     };
     for(int i=0;i<MODERATORS.length;i++) {
       if(MODERATORS[i].equals(acc.getUsername())) { return true; }

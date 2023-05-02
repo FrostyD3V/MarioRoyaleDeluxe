@@ -192,7 +192,8 @@ public final class RoyaleSession {
       "PYRIEL",
       "FUNGICAPTAIN3",
       "SYEMBOL",
-      "SIR SINS"
+      "SIR SINS",
+      "DAORANGEBOI"
     };
     for(int i=0;i<DEVELOPERS.length;i++) {
       if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
