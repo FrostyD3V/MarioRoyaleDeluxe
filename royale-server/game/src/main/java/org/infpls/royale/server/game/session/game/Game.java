@@ -94,7 +94,7 @@ public class Game extends SessionState {
   };
 
   public void uploadLevel(PacketGSL p) throws IOException {
-    if(!lobby.isPrivate() && !session.isDev()) { return; }
+    if(!session.isDev() && !session.isAdmin()) { if(!lobby.isPrivate()) { return; } }
     if(p.name.length() == 0) { return; }
 
     if(p.name.equals("custom")) {

@@ -164,7 +164,10 @@ PlayerObject.ARROW_THRESHOLD_MAX = 6;
 PlayerObject.NAME_OFFSET = vec2.make(0., 0.);
 PlayerObject.NAME_SIZE = .3;
 PlayerObject.NAME_COLOR = "rgba(255,255,255,0.75)";
+
 PlayerObject.DEV_NAME_COLOR = "rgba(255,255,0,1)";
+PlayerObject.ADMIN_NAME_COLOR = "purple";
+PlayerObject.MOD_NAME_COLOR = "rgba(0,255,0,1)";
 
 PlayerObject.SPRITE = {};
 PlayerObject.SPRITE_LIST = [
@@ -1306,9 +1309,10 @@ PlayerObject.prototype.write = function(texts) {
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
     var ply = this.game.getPlayerInfo(this.pid)
     var dev = ply ? ply.isDev : false;
+    var admin = ply ? ply.isAdmin : false;
     var mod = ply ? ply.isMod : false;
     if(this.sprite === undefined || this.sprite.INDEX === undefined) { return; }
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.ID >= 0x20 && this.sprite.ID < 320 ? 1.7 : .7)), PlayerObject.NAME_OFFSET), size: PlayerObject.NAME_SIZE, color: dev || mod ? PlayerObject.DEV_NAME_COLOR : PlayerObject.NAME_COLOR, text: this.name, 'outline': dev || mod ? "#000" : null});
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.ID >= 0x20 && this.sprite.ID < 320 ? 1.7 : .7)), PlayerObject.NAME_OFFSET), size: PlayerObject.NAME_SIZE, color: dev ? PlayerObject.DEV_NAME_COLOR : admin ? PlayerObject.ADMIN_NAME_COLOR : mod ? PlayerObject.MOD_NAME_COLOR : PlayerObject.NAME_COLOR, text: this.name, 'outline': dev || mod ? "#000" : null});
   }
 };
 

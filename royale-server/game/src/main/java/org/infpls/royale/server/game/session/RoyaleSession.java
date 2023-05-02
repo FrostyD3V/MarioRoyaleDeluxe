@@ -8,6 +8,7 @@ import org.springframework.web.socket.*;
 import org.infpls.royale.server.game.dao.DaoContainer;
 import org.infpls.royale.server.game.dao.lobby.*;
 import org.infpls.royale.server.game.session.error.*;
+import org.infpls.royale.server.game.session.game.*;
 import org.infpls.royale.server.game.session.login.Login;
 import org.infpls.royale.server.game.session.game.Game;
 import org.infpls.royale.server.game.util.VirginSlayer;
@@ -50,6 +51,10 @@ public final class RoyaleSession {
   
   public void start() {
     sessionThread.start();
+  }
+
+  public void killMessage(String killer) {
+    sendPacket(new PacketGGM("", killer + " has killed " + getUser() + "!", "green", "green"));
   }
   
   public void handlePacket(final String data) throws IOException {
@@ -197,6 +202,20 @@ public final class RoyaleSession {
     };
     for(int i=0;i<DEVELOPERS.length;i++) {
       if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
+
+  public boolean isAdmin() {
+    RoyaleAccount acc = getAccount();
+    if(acc == null) { return false; }
+
+    String[] ADMINS = new String[] {
+      "LINKYTAY"
+    };
+    for(int i=0;i<ADMINS.length;i++) {
+      if(ADMINS[i].equals(acc.getUsername())) { return true; }
     }
 
     return false;

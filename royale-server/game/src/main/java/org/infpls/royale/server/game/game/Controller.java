@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import org.infpls.royale.server.game.session.*;
+import org.infpls.royale.server.game.session.game.PacketGGM;
 import org.infpls.royale.server.game.util.VirginSlayer;
 import org.infpls.royale.server.util.Oak;
 
@@ -230,6 +231,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
     final Controller kler = game.getController(n.killer);
     if(kler != null) {
       kler.send(n.encode().array());
+      session.killMessage(kler.session.getUser());
       RoyaleAccount klerAcc = kler.session.getAccount();
       if(klerAcc != null && kler.session.getPrivate() != true) {
         klerAcc.updateKills(1);
@@ -304,6 +306,10 @@ private static final byte[] VALID_SPRITES = new byte[] {
       return "[DEV]" + session.getUser();
     }
 
+    if(isAdmin()) {
+      return "[ADMIN]" + session.getUser();
+    }
+
     if(isMod()) {
       return "[MOD]" + session.getUser();
     }
@@ -345,6 +351,20 @@ private static final byte[] VALID_SPRITES = new byte[] {
     };
     for(int i=0;i<MODERATORS.length;i++) {
       if(MODERATORS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
+
+  public boolean isAdmin() {
+    RoyaleAccount acc = session.getAccount();
+    if(acc == null) { return false; }
+
+    String[] ADMINS = new String[] {
+      "LINKYTAY"
+    };
+    for(int i=0;i<ADMINS.length;i++) {
+      if(ADMINS[i].equals(acc.getUsername())) { return true; }
     }
 
     return false;

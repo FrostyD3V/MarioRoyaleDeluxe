@@ -134,7 +134,7 @@ public abstract class GameLobby {
     game.join(session);
     sendPacket(new PacketGGM("", session.getUser() + " joined the game.", "orange", "orange"));
     
-    if(session.isDev() || isPrivate()) {
+    if(session.isDev() || session.isAdmin() || isPrivate()) {
       if(gameMode == "vanilla") {
         List<Level> levels = new ArrayList<>();
         levels.add(new Level("W1", "world-1"));
@@ -257,7 +257,7 @@ public abstract class GameLobby {
 
   /* Chat */
   public void sendMessage(RoyaleSession session, String data) {
-    sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
+    sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isAdmin() ? "purple" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
   }
   
   protected void close() throws IOException {
