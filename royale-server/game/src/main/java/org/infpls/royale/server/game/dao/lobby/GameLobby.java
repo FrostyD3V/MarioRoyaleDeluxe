@@ -124,6 +124,7 @@ public abstract class GameLobby {
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     loading.add(session);
     sendPacket(new PacketG01(LOBBY_FILE, "", gameMode), session);
+    sendPacket(new PacketGGM("", session.getUser() + " joined the game.", "orange", "orange"));
   }
   
   private void readyEvent(RoyaleSession session) throws IOException {
@@ -132,7 +133,6 @@ public abstract class GameLobby {
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     players.add(session);
     game.join(session);
-    sendPacket(new PacketGGM("", session.getUser() + " joined the game.", "orange", "orange"));
     
     if(session.isDev() || session.isAdmin() || isPrivate()) {
       if(gameMode == "vanilla") {
@@ -171,7 +171,7 @@ public abstract class GameLobby {
     loading.remove(session);
     players.remove(session);
     game.leave(session);
-    sendPacket(new PacketGGM("", session.getUser() + " left the game.", "orange", "orange"));
+    sendPacket(new PacketGGM("", session.getUser() + " left the game. " + session.getReason(), "orange", "orange"));
   }
   
   private void ejectEvent(RoyaleSession session) {
@@ -256,8 +256,73 @@ public abstract class GameLobby {
   }
 
   /* Chat */
-  public void sendMessage(RoyaleSession session, String data) {
+  public void sendMessage(RoyaleSession session, String data) throws IOException {
+    if(session.muted) {
+      sendPacket(new PacketGGM("[AUTOMOD]", "You are muted and can no longer speak in this lobby.", "orange", "red"));
+      return;
+    }
     sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isAdmin() ? "purple" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
+    
+    if(session.isDev() || session.isAdmin() || session.isMod()) {
+      String pattern = "^/.*";
+      boolean isCommand = data.matches(pattern);
+
+      if(isCommand) {
+        String[] parts = data.split(" ");
+        String command = parts[0];
+        String[] args = Arrays.copyOfRange(parts, 1, parts.length);
+
+        if(command.equals("/kick")) {
+          String username = args[0];
+          for(int i=0;i<players.size();i++) {
+            if(players.get(i).getUser().toLowerCase().equals(username.toLowerCase())) {
+              RoyaleSession player = players.get(i);
+              player.disconnectMessage = "(Kicked)";
+              player.close();
+              break;
+            }
+
+            sendPacket(new PacketGGM("[MOD TOOL]", "Could not find player with username " + username, "orange", "red"));
+          }
+        } else if(command.equals("/mute")) {
+          String username = args[0];
+
+          for(int i=0;i<players.size();i++) {
+            if(players.get(i).getUser().toLowerCase().equals(username.toLowerCase())) {
+              RoyaleSession player = players.get(i);
+              if(!player.isDev() && !player.isAdmin() && !player.isMod()) {
+                player.muted = true;
+                sendPacket(new PacketGGM("[MOD TOOL]", "Successfully muted " + username, "orange", "green"));
+                break;
+              } else {
+                sendPacket(new PacketGGM("[MOD TOOL]", "You cannot mute this player.", "orange", "red"));
+                break;
+              }
+            }
+          }
+        } else if(command.equals("/unmute")) {
+          String username = args[0];
+
+          for(int i=0;i<players.size();i++) {
+            if(players.get(i).getUser().toLowerCase().equals(username.toLowerCase())) {
+              RoyaleSession player = players.get(i);
+              if(!player.isDev() || !player.isAdmin() || !player.isMod()) {
+                if(!player.muted) {
+                  sendPacket(new PacketGGM("[MOD TOOL]", username + " is not muted.", "orange", "gray"));
+                }
+                player.muted = false;
+                sendPacket(new PacketGGM("[MOD TOOL]", "Successfully unmuted " + username, "orange", "green"));
+                break;
+              }
+            }
+          }
+        } else if(command.equals("/start")) {
+          if(!locked) { whereWeDroppin(); sendPacket(new PacketGGM("[MODTOOL]", "Game started by " + session.getUser(), "orange", "green")); }
+        } else if(command.equals("/help")) {
+          sendPacket(new PacketGGM("[MOD COMMANDS]", "\n/kick [player]: Kicks a player from the lobby\n/mute [player]: Mute a player in this lobby\n/unmute [player]: Unmute a muted player\n/start: Force start the game\n/help: Shows this command", "orange", "#FFFFFFAA"));
+        }
+      }
+    }
   }
   
   protected void close() throws IOException {

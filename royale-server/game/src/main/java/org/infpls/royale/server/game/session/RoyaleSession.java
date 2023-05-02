@@ -28,6 +28,7 @@ public final class RoyaleSession {
 
   public int strikes;
   public String disconnectMessage;
+  public boolean muted;
   
   public boolean readyVote;   // Kinda messy. Should really be a linked list in GameLobby instead.
   public RoyaleAccount account;
@@ -45,6 +46,7 @@ public final class RoyaleSession {
 
     strikes = 0x00;
     disconnectMessage = "(Disconnected)";
+    muted = false;
     
     changeState("l");
   }
@@ -57,6 +59,10 @@ public final class RoyaleSession {
     sendPacket(new PacketGGM("", killer + " has killed " + getUser() + "!", "green", "green"));
   }
   
+  public String getReason() {
+    return disconnectMessage;
+  }
+
   public void handlePacket(final String data) throws IOException {
     sessionState.handlePacket(data);
   }
