@@ -144,7 +144,7 @@ public abstract class GameLobby {
         levels.add(new Level("W6", "world-6"));
         levels.add(new Level("W7", "world-7"));
         levels.add(new Level("W8", "world-8"));
-        levels.add(new Level("LOST", "world-8"));
+        levels.add(new Level("LOST", "world-lost"));
         levels.add(new Level("TRICORN", "world-tricorn"));
 
         sendPacket(new PacketGLL(levels), session);
