@@ -54,6 +54,9 @@ Lobby.prototype.changeLevel = function(p) {
   document.getElementById(this.selectedWorld).style.border = "2px solid";
 };
 
+Lobby.prototype.handleKeyPress = Game.prototype.handleKeyPress;
+Lobby.prototype.sendMessage = Game.prototype.sendMessage;
+
 Lobby.prototype.changePrivMenu = Game.prototype.changePrivMenu;
 Lobby.prototype.getDebug = Game.prototype.getDebug;
 Lobby.prototype.load = Game.prototype.load;

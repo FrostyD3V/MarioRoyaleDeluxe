@@ -1306,8 +1306,9 @@ PlayerObject.prototype.write = function(texts) {
   else if(this.name) { /* Hacky thing for ghost dim @TODO: */
     var ply = this.game.getPlayerInfo(this.pid)
     var dev = ply ? ply.isDev : false;
+    var mod = ply ? ply.isMod : false;
     if(this.sprite === undefined || this.sprite.INDEX === undefined) { return; }
-    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.ID >= 0x20 && this.sprite.ID < 320 ? 1.7 : .7)), PlayerObject.NAME_OFFSET), size: PlayerObject.NAME_SIZE, color: dev ? PlayerObject.DEV_NAME_COLOR : PlayerObject.NAME_COLOR, text: this.name, 'outline': dev ? "#FFF" : null});
+    texts.push({pos: vec2.add(vec2.add(this.pos, vec2.make(0., this.sprite.ID >= 0x20 && this.sprite.ID < 320 ? 1.7 : .7)), PlayerObject.NAME_OFFSET), size: PlayerObject.NAME_SIZE, color: dev || mod ? PlayerObject.DEV_NAME_COLOR : PlayerObject.NAME_COLOR, text: this.name, 'outline': dev || mod ? "#000" : null});
   }
 };
 

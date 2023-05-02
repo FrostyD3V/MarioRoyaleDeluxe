@@ -251,6 +251,11 @@ public abstract class GameLobby {
     levelData = "";
     sendPacket(new PacketGCL(world));
   }
+
+  /* Chat */
+  public void sendMessage(RoyaleSession session, String data) {
+    sendPacket(new PacketGGM(session.getUser(), data, session.isDev() ? "rgb(255,255,0)" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)"));
+  }
   
   protected void close() throws IOException {
     closed = true;

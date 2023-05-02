@@ -59,9 +59,9 @@ public abstract class RoyaleCore {
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
       if(c.session.getAccount() != null) {
-        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev(), c.isMod()));
       } else {
-        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev(), c.isMod()));
       }
     }
     send(new PacketG12(players));
@@ -91,9 +91,9 @@ public abstract class RoyaleCore {
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
       if(c.session.getAccount() != null) {
-        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev(), c.isMod()));
       } else {
-        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev(), c.isMod()));
       }
     }
     send(new PacketG12(players));
@@ -106,9 +106,9 @@ public abstract class RoyaleCore {
     for(int i=0;i<controllers.size();i++) {
       final Controller c = controllers.get(i);
       if(c.session.getAccount() != null) {
-        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, c.session.getAccount().getUsername(), c.getName(), c.isDev(), c.isMod()));
       } else {
-        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev()));
+        players.add(new PacketG12.NamePair(c.pid, "[ Guest ]", c.getName(), c.isDev(), c.isMod()));
       }
     }
     send(new PacketG12(players));

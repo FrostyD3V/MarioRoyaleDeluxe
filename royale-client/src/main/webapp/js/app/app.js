@@ -228,6 +228,8 @@ App.prototype.close = function(goToLobby) {
     app.menu.bg.destroy();
     controlApp.load();
 
+    document.getElementById("gameChat").style.display = "none";
+    document.getElementById("chat-messages").innerHTML = "";
     document.getElementById("devConsole").style.display = "none";
     document.getElementById("worlds").style.display = "none";
     document.getElementById("return").style.display = "none";

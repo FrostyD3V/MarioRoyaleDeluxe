@@ -304,6 +304,10 @@ private static final byte[] VALID_SPRITES = new byte[] {
       return "[DEV]" + session.getUser();
     }
 
+    if(isMod()) {
+      return "[MOD]" + session.getUser();
+    }
+
     return session.getUser();
   }
   public String getRoom() { return session.getRoom(); }
@@ -323,6 +327,23 @@ private static final byte[] VALID_SPRITES = new byte[] {
     };
     for(int i=0;i<DEVELOPERS.length;i++) {
       if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
+
+  public boolean isMod() {
+    RoyaleAccount acc = session.getAccount();
+    if(acc == null) { return false; }
+
+    String[] MODERATORS = new String[] {
+      "PYRIEL",
+      "FUNGICAPTAIN3",
+      "SYEMBOL",
+      "SIR SINS"
+    };
+    for(int i=0;i<MODERATORS.length;i++) {
+      if(MODERATORS[i].equals(acc.getUsername())) { return true; }
     }
 
     return false;

@@ -103,6 +103,21 @@ Game.GAME_OVER_TIME = 360;
 
 Game.COINS_TO_LIFE = 30;
 
+Game.prototype.handleKeyPress = function (evt) {
+  var chat = document.getElementById("chat-input");
+  switch (evt.keyCode) {
+      case 0xd : {
+          this.sendMessage(chat.value);
+          break;
+      }
+  }
+};
+
+Game.prototype.sendMessage = function(data) {
+  app.net.send({ "type": "gsm", "data": data });
+  document.getElementById("chat-input").value = "";
+};
+
 Game.prototype.changePrivMenu = function(tab) {
   var wrldbtn = document.getElementById("wrldbtn");
   var debgbtn = document.getElementById("debgbtn");
@@ -198,6 +213,20 @@ Game.prototype.load = function(data) {
   }
   if(!(this instanceof Lobby) && app) {
     app.menu.main.menuMusic.pause();
+  }
+
+  document.getElementById("gameChat").style.display = "";
+
+  var input = document.getElementById("chat-input");
+  input.onkeyup = (evt) => this.handleKeyPress(evt);
+  if(!app.loggedIn()) {
+    input.disabled = true;
+    input.value = "Register to chat";
+    input.style.color = "#FFFFFFAA";
+  } else {
+    input.enabled = true;
+    input.value = "";
+    input.style.color = "#FFF";
   }
   
   /* Load world data */

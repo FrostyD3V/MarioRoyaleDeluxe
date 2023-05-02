@@ -24,6 +24,9 @@ public final class RoyaleSession {
   private SessionState sessionState;
   public final boolean banned;
   public String gameMode; // We ask for this in getOnlineUserCount
+
+  public int strikes;
+  public String disconnectMessage;
   
   public boolean readyVote;   // Kinda messy. Should really be a linked list in GameLobby instead.
   public RoyaleAccount account;
@@ -38,6 +41,9 @@ public final class RoyaleSession {
     readyVote = false;
     
     banned = VirginSlayer.isBanned(getIP());
+
+    strikes = 0x00;
+    disconnectMessage = "(Disconnected)";
     
     changeState("l");
   }
@@ -170,6 +176,23 @@ public final class RoyaleSession {
       "DIMENSION",
       "INVADER",
       "NIGHTCAT"
+    };
+    for(int i=0;i<DEVELOPERS.length;i++) {
+      if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }
+    }
+
+    return false;
+  }
+
+  public boolean isMod() {
+    RoyaleAccount acc = getAccount();
+    if(acc == null) { return false; }
+
+    String[] DEVELOPERS = new String[] {
+      "PYRIEL",
+      "FUNGICAPTAIN3",
+      "SYEMBOL",
+      "SIR SINS"
     };
     for(int i=0;i<DEVELOPERS.length;i++) {
       if(DEVELOPERS[i].equals(acc.getUsername())) { return true; }

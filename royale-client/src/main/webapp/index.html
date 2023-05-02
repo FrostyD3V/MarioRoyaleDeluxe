@@ -9,6 +9,7 @@
         <link rel='stylesheet' type='text/css' href='css/queries.css'>
         <link rel='stylesheet' type='text/css' href='css/index.css'>
         <link rel='stylesheet' type='text/css' href='css/control.css'>
+        <link rel='stylesheet' type='text/css' href='css/chat.css'>
 
         <meta name="keywords" content="MRoyale, Mario, Mario Royale, Mario Royale Deluxe, Deluxe, Royale, Super Mario, Super Mario Bros., Super Mario Bros. Royale, Super Mario Royale" />
         <meta name="description" content="Mario Royale Deluxe is a competitive online battle where up to 75 players compete for glory!" />
@@ -402,6 +403,18 @@
       <div id='return' class='container-return' style='display: none'>
         <span id='return-main' class='launch' onclick='app.close();'>Return to Main</span><br>
         <span id='return-lobby' class='launch' onclick='app.close(true);'>Return to Lobby</span>
+      </div>
+
+      <!-- Game Chat -->
+      <div id="gameChat" style="display:none;width: 25vw;">
+        <div class="container-gameChat">
+          <h2 style="text-align: center;font-size: 20px;margin-top: 10px;">Chat</h2>
+          <span class="container-hideChat" id="chat-hide">X</span>
+          
+          <pre id="chat-messages" class="container-chatMessages"></pre>
+          
+          <input class="container-chatInput" id="chat-input" maxlength="100">
+        </div>
       </div>
 
       <!-- Dev Console -->
