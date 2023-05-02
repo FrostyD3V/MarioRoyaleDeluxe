@@ -115,7 +115,7 @@ StateGame.prototype.getMessage = function(p) {
     let message = sanitize(p.data);
     let messages = document.getElementById("chat-messages");
 
-    messages.innerHTML += `<span><span style="color:${p.color}">${p.name}</span>: ${message}</span>\n\n`;
+    messages.innerHTML += `<span style=color:${p.textColor}><span style="color:${p.color}">${p.name}</span>${message}</span>\n\n`;
 
     jQuery( function(){
         var pre = jQuery("#chat-messages");

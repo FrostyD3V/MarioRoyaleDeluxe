@@ -132,7 +132,8 @@ public abstract class GameLobby {
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     players.add(session);
     game.join(session);
-
+    sendPacket(new PacketGGM("", session.getUser() + " joined the game.", "orange", "orange"));
+    
     if(session.isDev() || isPrivate()) {
       if(gameMode == "vanilla") {
         List<Level> levels = new ArrayList<>();
@@ -170,6 +171,7 @@ public abstract class GameLobby {
     loading.remove(session);
     players.remove(session);
     game.leave(session);
+    sendPacket(new PacketGGM("", session.getUser() + " left the game.", "orange", "orange"));
   }
   
   private void ejectEvent(RoyaleSession session) {
@@ -177,6 +179,7 @@ public abstract class GameLobby {
     loading.remove(session);
     players.remove(session);
     game.leave(session);
+    sendPacket(new PacketGGM("", session.getUser() + " has been ejected.", "orange", "orange"));
   }
   
   private void voteEvent(RoyaleSession session) {
@@ -254,7 +257,7 @@ public abstract class GameLobby {
 
   /* Chat */
   public void sendMessage(RoyaleSession session, String data) {
-    sendPacket(new PacketGGM(session.getUser(), data, session.isDev() ? "rgb(255,255,0)" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)"));
+    sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
   }
   
   protected void close() throws IOException {
