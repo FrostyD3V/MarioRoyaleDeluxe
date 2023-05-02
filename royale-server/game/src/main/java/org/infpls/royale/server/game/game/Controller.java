@@ -229,7 +229,7 @@ private static final byte[] VALID_SPRITES = new byte[] {
   /* PLAYER_KILL_EVENT */
   public void process017(ByteMe.NET017 n) {
     final Controller kler = game.getController(n.killer);
-    if(kler != null) {
+    if(kler != null && n.pid != pid) {
       kler.send(n.encode().array());
       session.killMessage(kler.session.getUser());
       RoyaleAccount klerAcc = kler.session.getAccount();
