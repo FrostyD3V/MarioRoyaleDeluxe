@@ -16,27 +16,29 @@ function Lobby(data, gameMode) {
     app.menu.main.menuMusic.play();
   }
 
-  var levels = document.getElementById("levels");
   var customLevel = document.getElementById("levelSelectInput");
-
+  
   customLevel.addEventListener("change", (function() { return function(event) {
     uploadFile(false, event, function(data) { app.net.send({ 'type': "gsl", 'name': "custom", 'data': data }); });
   }; })());
-
-  var levelSelector = this.gameMode ? levelSelectorsPVP : levelSelectorsVanilla;
-  levelSelector.forEach(page => {
-    for(var level of page.levels) {
-        var elem = document.createElement("div");
-        elem.className = "level-select-button";
-        elem.id = level.worldId;
-        elem.innerText = level.name;
-        elem.addEventListener("click", (function (id) { return function () { app.net.send({ 'type': "gsl", 'name': id, 'data': "" }); }; })(level.worldId));
-
-        levels.appendChild(elem);
-    }
-  })
-
+  
   this.lobbyTimer = 90;
+};
+
+/* PRIVATE LOBBY / DEV */
+Lobby.prototype.getLevels = function(p) {
+  document.getElementById("worlds").style.display = "";
+
+  var levels = document.getElementById("levels");
+  for(var level of p.levels) {
+    var elem = document.createElement("div");
+    elem.className = "level-select-button";
+    elem.id = level.worldId;
+    elem.innerText = level.name;
+    elem.addEventListener("click", (function (id) { return function () { app.net.send({ 'type': "gsl", 'name': id, 'data': "" }); }; })(level.worldId));
+
+    levels.appendChild(elem);
+  }
 };
 
 /* PRIVATE LOBBY / DEV */

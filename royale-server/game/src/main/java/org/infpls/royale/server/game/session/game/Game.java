@@ -35,6 +35,7 @@ public class Game extends SessionState {
     < g13 game start countdown timer update
     = g21 ping
     > g50 vote ready
+    < gll send level select
     > gsl level select/upload level (private room)
     > gbn kick/ban player (dev only)
     > gnm rename player (dev only)
@@ -114,6 +115,8 @@ public class Game extends SessionState {
   private void renamePlayer(PacketGNM p) throws IOException {
     if(session.getAccount() != null) {
       if(!session.isDev()) { return; }
+
+      p.name = p.name.toUpperCase();
 
       Controller controller = lobby.getController(p.pid);
       if(controller.session.getAccount() != null) {

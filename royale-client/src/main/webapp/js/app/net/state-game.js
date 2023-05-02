@@ -13,6 +13,7 @@ StateGame.prototype.handlePacket = function(packet) {
     case "g01" : { this.load(packet); return true; }
     case "g06" : { this.globalWarn(packet); return true; }
     case "g21" : { this.recievePing(packet); return true; }
+    case "gll" : { this.getLevels(packet); return true; }
     case "gcl" : { this.changeLevel(packet); return true; }
     default : { return app.ingame() ? app.game.handlePacket(packet) : false; }
   }
@@ -79,6 +80,13 @@ StateGame.prototype.recievePing = function(p) {
   var now = util.time.now();
   app.net.ping = now - p.delta;
   this.pingOut = false;
+};
+
+// GLL
+StateGame.prototype.getLevels = function(p) {
+  var game = app.game;
+  if(!(game instanceof Lobby)) { return; }
+  game.getLevels(p);
 };
 
 // GCL

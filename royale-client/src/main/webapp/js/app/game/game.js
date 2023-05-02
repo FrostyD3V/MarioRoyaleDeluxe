@@ -178,7 +178,7 @@ Game.prototype.load = function(data) {
     document.getElementById("settings-returnLobby").style.display = "";
   }
 
-  if(this instanceof Lobby && (app.net.prefLobby || this.isDev)) { document.getElementById("worlds").style.display = ""; }
+  if(this instanceof Lobby && (app.net.prefLobby || this.isDev)) { }
   else if(app.net.prefLobby) {
     document.getElementById("worlds").style.display = "none";
 
@@ -388,9 +388,7 @@ Game.prototype.updateLobby = function() {
       this.isDev = ply.isDev;
       if(this.isDev) {
         document.getElementById("devConsole").style.display = "";
-        if(this instanceof Lobby) {
-          document.getElementById("worlds").style.display = "";
-        } else {
+        if(!(this instanceof Lobby)) {
           document.getElementById("worlds").style.display = "none";
         }
       }

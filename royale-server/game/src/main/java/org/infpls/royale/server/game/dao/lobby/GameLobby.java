@@ -132,6 +132,35 @@ public abstract class GameLobby {
     catch(IOException ioex) { Oak.log(Oak.Level.ERR, "Error during player disconnect.", ioex); return; }
     players.add(session);
     game.join(session);
+
+    if(session.isDev() || isPrivate()) {
+      if(gameMode == "vanilla") {
+        List<Level> levels = new ArrayList<>();
+        levels.add(new Level("W1", "world-1"));
+        levels.add(new Level("W2", "world-2"));
+        levels.add(new Level("W3", "world-3"));
+        levels.add(new Level("W4", "world-4"));
+        levels.add(new Level("W5", "world-5"));
+        levels.add(new Level("W6", "world-6"));
+        levels.add(new Level("W7", "world-7"));
+        levels.add(new Level("W8", "world-8"));
+        levels.add(new Level("LOST", "world-8"));
+        levels.add(new Level("TRICORN", "world-tricorn"));
+
+        sendPacket(new PacketGLL(levels), session);
+      } else {
+        List<Level> levels = new ArrayList<>();
+        levels.add(new Level("MK", "pvp-mariokart"));
+        levels.add(new Level("SMB2", "pvp-smb2"));
+        levels.add(new Level("Maker", "pvp-maker"));
+        levels.add(new Level("SPM", "pvp-spm"));
+        levels.add(new Level("NSMB", "pvp-nsmb"));
+        levels.add(new Level("Blackout", "pvp-blackout"));
+        levels.add(new Level("Hockey", "pvp-hockey"));
+
+        sendPacket(new PacketGLL(levels), session);
+      }
+    }
     
     startAutoTimer();
     if(players.size() >= MAX_PLAYERS) { startTimer(); }
