@@ -270,6 +270,10 @@ public abstract class GameLobby {
       }
     }
 
+    if(data.length() == 0 || data.length() > 100) {
+      return;
+    } 
+
     sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isAdmin() ? "purple" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
     
     if(session.isDev() || session.isAdmin() || session.isMod()) {

@@ -559,6 +559,18 @@ PlayerObject.prototype.autoMove = function() {
 };
 
 PlayerObject.prototype.control = function() {
+  if(document.activeElement.tagName === 'INPUT') {
+    if(this.autoTarget) {
+        this.autoMove();
+    } else {
+        this.btnD = [0x0, 0x0];
+        this.btnA = false;
+        this.btnB = false;
+        this.btnBg = false;
+        this.btnBde = false;
+        this.btnU = false;
+    };
+  }
   if(this.grounded) { this.btnBg = this.btnB; this.glideTimer = 0; }
   
   if(this.isState(PlayerObject.SNAME.DOWN) && !this.crouchJump && this.grounded && this.collisionTest(this.pos, this.getStateByPowerIndex(PlayerObject.SNAME.STAND, this.power).DIM)) {
