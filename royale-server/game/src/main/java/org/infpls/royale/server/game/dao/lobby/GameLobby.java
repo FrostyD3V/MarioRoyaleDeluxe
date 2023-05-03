@@ -261,6 +261,15 @@ public abstract class GameLobby {
       sendPacket(new PacketGGM("[AUTOMOD]", "You are muted and can no longer speak in this lobby.", "orange", "red"), session);
       return;
     }
+
+    ArrayList<String> swearWords = Filter.badWordsFound(data);
+    if(swearWords.size() > 0) {
+      if(!(session.isDev() || session.isAdmin() || session.isMod())) {
+        sendPacket(new PacketGGM("[AUTOMOD]", "Your message contains a blocked word, so it has not been sent", "orange", "red"), session);
+        return;
+      }
+    }
+
     sendPacket(new PacketGGM(session.getUser() + ":", data, session.isDev() ? "rgb(255,255,0)" : session.isAdmin() ? "purple" : session.isMod() ? "rgb(0,255,0)" : "rgb(255,255,255)", "white"));
     
     if(session.isDev() || session.isAdmin() || session.isMod()) {
